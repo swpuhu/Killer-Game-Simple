@@ -1,0 +1,27 @@
+.identity-id {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  border: 2px solid #5dc6ff;
+  border-radius: 50%;
+  background-color: #fff;
+  transform: translate(50%, -50%);
+}
+
+.identity-avatar {
+  height: 280px;
+  width: 280px;
+  border: 2px solid #5dc6ff;
+  margin: 50px auto;
+  background-color: #fff;
+}
+
+.identity-avatar.killer {
+  background: url("../assets/img/killer.jpg") no-repeat;
+  -webkit-background-size: cover;
+  background-size: cover;
+}
+
+.identity-avatar.citizen {
+  background: url("../assets/img/citizen.jpeg") no-repeat -10px 0;
+}
