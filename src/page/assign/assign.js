@@ -33,10 +33,38 @@ for (let player in players) {
 }
 res = shuffle(res);
 console.log(res);
-let idcard = idcardGen(res.shift());
+let count = 0;
+let idcard = idcardGen(count + 1, res[count]);
 let button = document.createElement('div');
 addClass(button, ['identity-btn', 'next']);
+button.innerText = '点击查看身份';
 
+let clickCount = 0;
+button.addEventListener('click', function () {
+  if (count === res.length - 1) {
+    console.log(clickCount);
+    if (clickCount === 0) {
+      button.innerText = '开始游戏';
+      idcard.display();
+      ++clickCount;
+    } else {
+      // TODO: 跳转页面
+      console.log(1);
+      window.location = '../game/index.html';
+    }
+    return;
+  }
+  if (clickCount === 0) {
+    idcard.display();
+    button.innerText = '下一个';
+    ++clickCount;
+  } else {
+    ++count;
+    button.innerText = '点击查看身份';
+    idcard.setIdentity(count + 1, res[count]);
+    clickCount = 0;
+  }
+});
 let frag = document.createDocumentFragment();
 appendChildren(frag, header.getElement(), idcard.getElement(), button);
 document.body.appendChild(frag);
