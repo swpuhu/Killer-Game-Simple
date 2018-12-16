@@ -51,4 +51,7 @@ function getParams(string) {
   return res;
 }
 
-export {isArray, isObject, isFunction, isString, addClass, appendChildren, getParams};
+function getHash(url) {
+  return url.replace(/\?.*/, '');
+}
+export {isArray, isObject, isFunction, isString, addClass, appendChildren, getParams, getHash};

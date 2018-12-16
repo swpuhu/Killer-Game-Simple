@@ -11,7 +11,6 @@ function shuffle(arr) {
   return _arr;
 }
 
-const header = headerGen('Assign', 'header', true, false);
 let number = getParams(window.location.search).number;
 let players = {
   killer: 0,
@@ -33,6 +32,10 @@ for (let player in players) {
 }
 res = shuffle(res);
 console.log(res);
+// 将结果存入SessionStorage中，供后面的页面使用
+sessionStorage.setItem('identities', JSON.stringify(res));
+// 渲染
+const header = headerGen('Assign', 'header', true, false);
 let count = 0;
 let idcard = idcardGen(count + 1, res[count]);
 let button = document.createElement('div');
