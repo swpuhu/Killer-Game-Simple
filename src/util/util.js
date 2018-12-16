@@ -29,6 +29,12 @@ function addClass (ele, className) {
   }
 }
 
+function createElement(tagName, className) {
+  let ele = document.createElement(tagName);
+  className && addClass(ele, className);
+  return ele;
+}
+
 function appendChildren(father, ...children) {
   for (let child of children) {
     father.appendChild(child);
@@ -54,4 +60,24 @@ function getParams(string) {
 function getHash(url) {
   return url.replace(/\?.*/, '');
 }
-export {isArray, isObject, isFunction, isString, addClass, appendChildren, getParams, getHash};
+
+function throttle(fn, delay = 300) {
+  let first = true;
+  let self = this;
+  let timer = null;
+  return function () {
+    if (first) {
+      first = false;
+      fn.apply(self, arguments);
+    }
+    if (timer) {
+      return;
+    }
+    timer = setTimeout(() => {
+      fn.apply(self, arguments);
+      clearTimeout(timer);
+      timer = null;
+    }, delay);
+  }
+}
+export {isArray, isObject, isFunction, isString, addClass, appendChildren, getParams, getHash, throttle, createElement};

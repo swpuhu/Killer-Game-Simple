@@ -1,0 +1,76 @@
+import {getHash, addClass} from "../../util/util.js";
+
+let currentComponent = null;
+
+let players = JSON.parse(sessionStorage.getItem('identities'));
+
+const routes = {
+  '#/init': function () {
+    currentComponent && currentComponent.remove();
+    // 按需加载
+    import('./kill.js').then(data => {
+      const listGen = data.default;
+      const kill = listGen(players, '法官日记', '开始游戏');
+      currentComponent = kill;
+      routeEle.appendChild(kill.getElement());
+      kill.addEventListener('buttonClick', function (e) {
+        window.router.go('#/judge');
+      });
+    });
+  },
+  '#/judge': function () {
+    currentComponent && currentComponent.remove();
+    import('./judge.js').then(data => {
+      const judgeFunc = data.default;
+      const judge = judgeFunc();
+      currentComponent = judge;
+      routeEle.appendChild(judge.getElement());
+    })
+  }
+};
+
+let route = {
+  value: getHash(window.location.hash)
+};
+let routesKeys = Object.keys(routes);
+let flag = false;
+for (let r of routesKeys) {
+  if (r === route.value) {
+    flag = true;
+  }
+}
+if (!flag) {
+  route.value = '#/init';
+}
+
+let routeEle = document.createElement('div');
+addClass(routeEle, ['route']);
+document.body.appendChild(routeEle);
+
+window.location.hash = route.value;
+routes[route.value]();
+
+window.onhashchange = function () {
+  let value = getHash(window.location.hash);
+  currentComponent && currentComponent.remove();
+  let flag = false;
+  for (let r of routesKeys) {
+    if (r === value) {
+      flag = true;
+    }
+  }
+  if (!flag) {
+    window.location.hash = '#/init';
+    return;
+  }
+  routes[value]();
+};
+
+window.router = {};
+window.router.go = function (hash) {
+  window.location.hash = hash;
+};
+
+export default function () {
+
+}

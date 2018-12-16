@@ -1,0 +1,45 @@
+.timeline {
+  display: flex;
+  height: 185px;
+}
+.timeline-line {
+  width: 1px;
+  height: 100%;
+  margin: 0 35px 0 25px;
+  background: #000;
+  -webkit-transform: scaleX(0.5);
+  -moz-transform: scaleX(0.5);
+  -ms-transform: scaleX(0.5);
+  -o-transform: scaleX(0.5);
+  transform: scaleX(0.5);
+}
+
+.timeline-li {
+  position: relative;
+  padding: 10px;
+  margin: 10px 0;
+  background-color: #fff;
+}
+
+.timeline-li__content {
+/*  position: absolute;
+  width: 100px;
+  height: 20px;
+  line-height: 20px;*/
+}
+
+
+.timeline-li::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  left: -5px;
+  width: 0;
+  height: 0;
+  border: 5px solid #fff;
+  -webkit-transform: rotate(45deg);
+  -moz-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  -o-transform: rotate(45deg);
+  transform: rotate(45deg);
+}

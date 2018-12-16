@@ -1,0 +1,35 @@
+.list-avatar {
+  flex: 0 0 30%;
+  margin: 20px 1.5%;
+  height: 100px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  text-align: center;
+}
+.list-avatar .list-wrapper {
+  height: 100%;
+  border: 3px solid #fff;
+  box-sizing: border-box;
+}
+
+.list-avatar .list-wrapper .list-name {
+  height: 75%;
+  padding: 20px 0;
+  box-sizing: border-box;
+}
+
+.list-avatar .list-wrapper .list-index{
+  display: flex;
+  align-items: center;
+  height: 25%;
+  background-color: #d5fff5;
+}
+
+.list-avatar .list-prompt {
+  display: none;
+  width: 20px;
+  height: 20%;
+  margin: 5px auto;
+  background-color: #fff;
+}

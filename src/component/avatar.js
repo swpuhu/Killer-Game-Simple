@@ -2,9 +2,17 @@ import base from '../util/base.js';
 import * as util from '../util/util.js';
 
 export default function (identity, index) {
+  const displayIdentity = {
+    killer: '杀手',
+    citizen: '平民',
+    mystery: '点击按钮显示身份'
+  };
   let obj = Object.create(base);
-  let doc = document.createElement('div');
-  util.addClass(doc, ['list-avatar', identity.identity, identity.isAlive]);
+  let doc = document.createElement('li');
+  util.addClass(doc, ['list-avatar', identity.identity]);
+  if (!identity.isAlive) {
+    doc.classList.add('death');
+  }
   doc.identity = identity;
 
   let wrapper = document.createElement('div');
@@ -12,11 +20,11 @@ export default function (identity, index) {
 
   let name = document.createElement('div');
   util.addClass(name, ['list-name']);
-  name.innerText = identity.identity;
+  name.innerText = displayIdentity[identity.identity];
 
   let indexEle = document.createElement('div');
   util.addClass(indexEle, 'list-index');
-  indexEle.innerText = `${index}号`;
+  indexEle.innerHTML = `<div style="flex: 1">${index}号</div>`;
 
   util.appendChildren(wrapper, name, indexEle);
 
