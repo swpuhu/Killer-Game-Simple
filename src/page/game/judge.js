@@ -2,29 +2,7 @@ import headerFunc from '../../component/header.js';
 import * as util from '../../util/util.js';
 import base from '../../util/base.js';
 import timelineFunc from '../../component/timeline.js';
-
-const history = [
-  {
-    day: 1,
-    step: 0,
-    kill: null,
-    vote: null,
-    killed: true,
-    posted: true,
-    discussed: true,
-    voted: true
-  },
-  {
-    day: 2,
-    step: 0,
-    kill: null,
-    vote: null,
-    killed: false,
-    posted: false,
-    discussed: false,
-    voted: false
-  }
-];
+import {HISTORY} from "./state.js";
 
 const CN = ['零', '一', '二', '三', '四', '五', '六', '七', '八', '九'];
 const unit1 = ['十', '百', '千', '万'];
@@ -68,14 +46,15 @@ export default function () {
   util.appendChildren(doc, header.getElement(), body, footer);
   let timeline = null;
   const days = [];
-  for (let i = 0; i < history.length; i++) {
-    let item = history[i];
+  for (let i = 0; i < HISTORY.length; i++) {
+    let item = HISTORY[i];
     let dayRow = util.createElement('div', ['judge-row']);
     let content = util.createElement('div', ['row-content']);
     content.innerText = `第${numberToCN(item.day)}天`;
     dayRow.isShowTimeline = false;
     dayRow.index = i;
     days.push(dayRow);
+
     dayRow.addEventListener('click', function (e) {
       days.forEach(item => {
         if (item.isShowTimeline === true) {
@@ -84,18 +63,39 @@ export default function () {
         }
       });
       dayRow.isShowTimeline = true;
-      timeline = timelineFunc(history[i]);
+      timeline = timelineFunc(HISTORY[i]);
+      addEvent.call(timeline);
       util.appendChildren(dayRow, timeline.getElement());
     });
-    if (i === history.length - 1) {
+
+    if (i === HISTORY.length - 1) {
       timeline = timelineFunc(item);
       dayRow.isShowTimeline = true;
     }
     util.appendChildren(dayRow, content);
-    timeline && util.appendChildren(dayRow, timeline.getElement());
+    if (timeline) {
+      addEvent.call(timeline);
+      util.appendChildren(dayRow, timeline.getElement());
+    }
     body.appendChild(dayRow);
   }
 
+  function addEvent() {
+    this.addEventListener('killClick', function (e) {
+      console.log('killClick');
+      window.router.go('#/killOrVote');
+    });
+    this.addEventListener('postLegacyClick', function (e) {
+      console.log('postLegacyClick');
+      window.router.go('#/killOrVote');
+    });
+    this.addEventListener('discussClick', function (e) {
+      console.log('discussClick');
+    });
+    this.addEventListener('voteClick', function (e) {
+      console.log('voteClick');
+    });
+  }
 
   function getElement() {
     return doc;
@@ -119,7 +119,7 @@ export default function () {
       enumerable: true
     }
   });
-
   return obj;
-
 }
+
+export {HISTORY};

@@ -2,16 +2,19 @@ import headerGen from '../../component/header.js';
 import base from '../../util/base.js';
 import avatarGen from '../../component/avatar.js';
 import * as util from '../../util/util.js';
+import {HISTORY} from "./state.js";
+import {STAGES} from "./state.js";
 
-export default function (players, title, btnText, type = 'dairy') {
-
+export default function (players, title, btnText, stage = -1) {
   players = players.map(item => {
     return {
       isAlive: true,
-      identity: item
+      identity: item,
+      killedBy: undefined
     }
   });
-  console.log(players);
+  let tempSelected = null;
+  let playersEle = [];
   let obj = Object.create(base);
   const header = headerGen(title, 'header', false, true);
   const doc = document.createElement('div');
@@ -23,12 +26,25 @@ export default function (players, title, btnText, type = 'dairy') {
     let avatar = avatarGen(player, i + 1);
     list.appendChild(avatar.getElement());
     listEles.push(avatar.getElement());
+
+    avatar.getElement().addEventListener('click', function (e) {
+      tempSelected = player;
+    });
   }
+
   const button = document.createElement('div');
   util.addClass(button, ['kill-btn']);
   button.innerText = btnText;
 
   button.addEventListener('click', function (e) {
+    if (stage === STAGES.kill) {
+      tempSelected.killedBy = 'killer';
+      HISTORY[HISTORY.length - 1].killed = true;
+    } else {
+      tempSelected.killedBy = 'vote';
+      HISTORY[HISTORY.length - 1].posteda = true;
+    }
+    tempSelected.isAlive = false;
     obj.dispatchEvent('buttonClick', e);
   });
 

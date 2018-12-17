@@ -1,8 +1,9 @@
 import {getHash, addClass} from "../../util/util.js";
+import {STAGES} from "./state.js";
 
 let currentComponent = null;
-
 let players = JSON.parse(sessionStorage.getItem('identities'));
+export {players};
 
 const routes = {
   '#/init': function () {
@@ -26,6 +27,25 @@ const routes = {
       currentComponent = judge;
       routeEle.appendChild(judge.getElement());
     })
+  },
+  '#/killOrVote': function () {
+    clearElement();
+    import('./kill.js').then(data => {
+      const listGen = data.default;
+      let kill;
+      if (STAGES.currentState === STAGES.kill) {
+        kill = listGen(players, '杀手杀人', '确定', STAGES.currentState);
+        STAGES.currentState = STAGES.vote;
+      } else {
+        kill = listGen(players, '全民投票', '确定', STAGES.currentState);
+        STAGES.currentState = STAGES.kill;
+      }
+      currentComponent = kill;
+      routeEle.appendChild(kill.getElement());
+      kill.addEventListener('buttonClick', function (e) {
+        window.router.go('#/judge');
+      });
+    });
   }
 };
 
@@ -55,6 +75,7 @@ function clearElement() {
 
 
 window.onhashchange = function () {
+  console.log(players);
   let value = getHash(window.location.hash);
   currentComponent && currentComponent.remove();
   let flag = false;
@@ -80,3 +101,5 @@ window.router.go = function (hash) {
 export default function () {
 
 }
+
+export {STAGES};
