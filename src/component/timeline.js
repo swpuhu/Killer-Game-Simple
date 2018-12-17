@@ -11,7 +11,7 @@ export default function (history) {
   kill.innerHTML = '<div class="timeline-li__content">杀手杀人</div>';
 
   const postLegacy = util.createElement('li', ['timeline-li', 'timeline-legacy']);
-  postLegacy.innerHTML = '<div class="timeline-li__content">亡灵发表一眼</div>';
+  postLegacy.innerHTML = '<div class="timeline-li__content">亡灵发表遗言</div>';
 
   const discuss = util.createElement('li', ['timeline-li', 'timeline-discuss']);
   discuss.innerHTML = '<div class="timeline-li__content">玩家依次发言讨论</div>';

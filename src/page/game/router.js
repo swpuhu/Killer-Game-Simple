@@ -6,7 +6,7 @@ let players = JSON.parse(sessionStorage.getItem('identities'));
 
 const routes = {
   '#/init': function () {
-    currentComponent && currentComponent.remove();
+    clearElement();
     // 按需加载
     import('./kill.js').then(data => {
       const listGen = data.default;
@@ -19,7 +19,7 @@ const routes = {
     });
   },
   '#/judge': function () {
-    currentComponent && currentComponent.remove();
+    clearElement();
     import('./judge.js').then(data => {
       const judgeFunc = data.default;
       const judge = judgeFunc();
@@ -47,8 +47,12 @@ let routeEle = document.createElement('div');
 addClass(routeEle, ['route']);
 document.body.appendChild(routeEle);
 
-window.location.hash = route.value;
-routes[route.value]();
+function clearElement() {
+  while(routeEle.firstElementChild) {
+    routeEle.firstElementChild.remove();
+  }
+}
+
 
 window.onhashchange = function () {
   let value = getHash(window.location.hash);
@@ -65,6 +69,8 @@ window.onhashchange = function () {
   }
   routes[value]();
 };
+
+routes[route.value]();
 
 window.router = {};
 window.router.go = function (hash) {

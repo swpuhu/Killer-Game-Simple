@@ -9,6 +9,16 @@ const history = [
     step: 0,
     kill: null,
     vote: null,
+    killed: true,
+    posted: true,
+    discussed: true,
+    voted: true
+  },
+  {
+    day: 2,
+    step: 0,
+    kill: null,
+    vote: null,
     killed: false,
     posted: false,
     discussed: false,
@@ -57,14 +67,29 @@ export default function () {
 
   util.appendChildren(doc, header.getElement(), body, footer);
   let timeline = null;
+  const days = [];
   for (let i = 0; i < history.length; i++) {
     let item = history[i];
     let dayRow = util.createElement('div', ['judge-row']);
     let content = util.createElement('div', ['row-content']);
     content.innerText = `第${numberToCN(item.day)}天`;
-
+    dayRow.isShowTimeline = false;
+    dayRow.index = i;
+    days.push(dayRow);
+    dayRow.addEventListener('click', function (e) {
+      days.forEach(item => {
+        if (item.isShowTimeline === true) {
+          item.isShowTimeline = false;
+          timeline.remove();
+        }
+      });
+      dayRow.isShowTimeline = true;
+      timeline = timelineFunc(history[i]);
+      util.appendChildren(dayRow, timeline.getElement());
+    });
     if (i === history.length - 1) {
       timeline = timelineFunc(item);
+      dayRow.isShowTimeline = true;
     }
     util.appendChildren(dayRow, content);
     timeline && util.appendChildren(dayRow, timeline.getElement());
