@@ -6,13 +6,7 @@ import {HISTORY} from "./state.js";
 import {STAGES} from "./state.js";
 
 export default function (players, title, btnText, stage = -1) {
-  players = players.map(item => {
-    return {
-      isAlive: true,
-      identity: item,
-      killedBy: undefined
-    }
-  });
+
   let tempSelected = null;
   let playersEle = [];
   let obj = Object.create(base);
@@ -40,11 +34,12 @@ export default function (players, title, btnText, stage = -1) {
     if (stage === STAGES.kill) {
       tempSelected.killedBy = 'killer';
       HISTORY[HISTORY.length - 1].killed = true;
-    } else {
+    } else if (stage === STAGES.vote) {
       tempSelected.killedBy = 'vote';
-      HISTORY[HISTORY.length - 1].posteda = true;
+      HISTORY[HISTORY.length - 1].posted = true;
     }
-    tempSelected.isAlive = false;
+    tempSelected && (tempSelected.isAlive = false);
+    sessionStorage.setItem('identities', JSON.stringify(players));
     obj.dispatchEvent('buttonClick', e);
   });
 

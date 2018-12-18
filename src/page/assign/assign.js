@@ -31,7 +31,13 @@ for (let player in players) {
   }
 }
 res = shuffle(res);
-console.log(res);
+res = res.map(item => {
+  return {
+    isAlive: true,
+    identity: item,
+    killedBy: undefined
+  }
+});
 // 将结果存入SessionStorage中，供后面的页面使用
 sessionStorage.setItem('identities', JSON.stringify(res));
 // 渲染

@@ -1,10 +1,7 @@
 import {getHash, addClass} from "../../util/util.js";
-import {STAGES} from "./state.js";
+import {STAGES, players} from "./state.js";
 
 let currentComponent = null;
-let players = JSON.parse(sessionStorage.getItem('identities'));
-export {players};
-
 const routes = {
   '#/init': function () {
     clearElement();

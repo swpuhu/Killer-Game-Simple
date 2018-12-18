@@ -17,3 +17,6 @@ export const HISTORY = [
   }
 ];
 
+let players = JSON.parse(sessionStorage.getItem('identities'));
+
+export {players};

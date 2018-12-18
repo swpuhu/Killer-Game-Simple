@@ -17,6 +17,7 @@
   height: 75%;
   padding: 20px 0;
   box-sizing: border-box;
+  background-color: #beffeb;
 }
 
 .list-avatar .list-wrapper .list-index{
@@ -32,4 +33,8 @@
   height: 20%;
   margin: 5px auto;
   background-color: #fff;
+}
+.list-avatar.death {
+  opacity: 0.5;
+  filter: grayscale(100%);
 }
