@@ -69,7 +69,7 @@ export default function () {
     });
 
     if (i === HISTORY.length - 1) {
-      timeline = timelineFunc(item);
+      timeline = timelineFunc(item, i);
       dayRow.isShowTimeline = true;
     }
     util.appendChildren(dayRow, content);
@@ -81,19 +81,25 @@ export default function () {
   }
 
   function addEvent() {
-    this.addEventListener('killClick', function (e) {
-      console.log('killClick');
+    this.addEventListener('killClick', function (e, index) {
+      HISTORY[index].killed = true;
+      sessionStorage.setItem('history', JSON.stringify(HISTORY));
       window.router.go('#/killOrVote');
     });
-    this.addEventListener('postLegacyClick', function (e) {
-      console.log('postLegacyClick');
-      window.router.go('#/killOrVote');
+    this.addEventListener('postLegacyClick', function (e, index) {
+      HISTORY[index].posted = true;
+      sessionStorage.setItem('history', JSON.stringify(HISTORY));
     });
-    this.addEventListener('discussClick', function (e) {
+    this.addEventListener('discussClick', function (e, index) {
+      HISTORY[index].discussed = true;
+      sessionStorage.setItem('history', JSON.stringify(HISTORY));
       console.log('discussClick');
     });
-    this.addEventListener('voteClick', function (e) {
+    this.addEventListener('voteClick', function (e, index) {
+      HISTORY[index].voted = true;
+      sessionStorage.setItem('history', JSON.stringify(HISTORY));
       console.log('voteClick');
+      window.router.go('#/killOrVote');
     });
   }
 

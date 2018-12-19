@@ -72,7 +72,6 @@ function clearElement() {
 
 
 window.onhashchange = function () {
-  console.log(players);
   let value = getHash(window.location.hash);
   currentComponent && currentComponent.remove();
   let flag = false;

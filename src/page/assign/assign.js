@@ -38,12 +38,25 @@ res = res.map(item => {
     killedBy: undefined
   }
 });
+const HISTORY = [
+  {
+    day: 1,
+    step: 0,
+    kill: null,
+    vote: null,
+    killed: false,
+    posted: false,
+    discussed: false,
+    voted: false
+  }
+];
 // 将结果存入SessionStorage中，供后面的页面使用
 sessionStorage.setItem('identities', JSON.stringify(res));
+sessionStorage.setItem('history', JSON.stringify(HISTORY));
 // 渲染
 const header = headerGen('Assign', 'header', true, false);
 let count = 0;
-let idcard = idcardGen(count + 1, res[count]);
+let idcard = idcardGen(count + 1, res[count].identity);
 let button = document.createElement('div');
 addClass(button, ['identity-btn', 'next']);
 button.innerText = '点击查看身份';
@@ -70,7 +83,7 @@ button.addEventListener('click', function () {
   } else {
     ++count;
     button.innerText = '点击查看身份';
-    idcard.setIdentity(count + 1, res[count]);
+    idcard.setIdentity(count + 1, res[count].identity);
     clickCount = 0;
   }
 });

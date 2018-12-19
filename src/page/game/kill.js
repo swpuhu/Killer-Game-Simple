@@ -20,10 +20,14 @@ export default function (players, title, btnText, stage = -1) {
     let avatar = avatarGen(player, i + 1);
     list.appendChild(avatar.getElement());
     listEles.push(avatar.getElement());
-
-    avatar.getElement().addEventListener('click', function (e) {
-      tempSelected = player;
-    });
+    if (stage !== -1) {
+      avatar.getElement().addEventListener('click', function (e) {
+        tempSelected = player;
+        let selectedEle = list.querySelector('.selected');
+        selectedEle && selectedEle.classList.remove('selected');
+        this.classList.add('selected');
+      });
+    }
   }
 
   const button = document.createElement('div');

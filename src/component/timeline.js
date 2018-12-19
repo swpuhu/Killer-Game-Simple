@@ -1,7 +1,8 @@
 import base from '../util/base.js';
 import * as util from '../util/util.js';
 
-export default function (history) {
+export default function (history, _index) {
+  let index = _index;
   let obj = Object.create(base);
   obj.eventList = [];
   const doc = util.createElement('div', ['timeline']);
@@ -14,7 +15,7 @@ export default function (history) {
     if (kill.classList.contains('done')) {
       return;
     }
-    obj.dispatchEvent('killClick', e);
+    obj.dispatchEvent('killClick', e, index);
   };
   kill.addEventListener('click', killClick);
 
@@ -24,7 +25,7 @@ export default function (history) {
     if (postLegacy.classList.contains('done')) {
       return;
     }
-    obj.dispatchEvent('postLegacyClick', e);
+    obj.dispatchEvent('postLegacyClick', e, index);
   };
   postLegacy.addEventListener('click', postLegacyClick);
 
@@ -34,7 +35,7 @@ export default function (history) {
     if (discuss.classList.contains('done')) {
       return;
     }
-    obj.dispatchEvent('discussClick', e);
+    obj.dispatchEvent('discussClick', e, index);
   };
   discuss.addEventListener('click', discussClick);
 
@@ -44,7 +45,7 @@ export default function (history) {
     if (vote.classList.contains('done')) {
       return;
     }
-    obj.dispatchEvent('voteClick', e);
+    obj.dispatchEvent('voteClick', e, index);
   };
   vote.addEventListener('click', voteClick);
 
