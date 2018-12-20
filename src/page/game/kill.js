@@ -20,12 +20,19 @@ export default function (players, title, btnText, stage = -1) {
     let avatar = avatarGen(player, i + 1);
     list.appendChild(avatar.getElement());
     listEles.push(avatar.getElement());
-    if (stage !== -1) {
+    if (stage === STAGES.kill) {
       avatar.getElement().addEventListener('click', function (e) {
         tempSelected = player;
-        let selectedEle = list.querySelector('.selected');
-        selectedEle && selectedEle.classList.remove('selected');
-        this.classList.add('selected');
+        let selectedEle = list.querySelector('.kill-selected');
+        selectedEle && selectedEle.classList.remove('kill-selected');
+        this.classList.add('kill-selected');
+      });
+    } else if (stage === STAGES.vote) {
+      avatar.getElement().addEventListener('click', function (e) {
+        tempSelected = player;
+        let selectedEle = list.querySelector('.vote-selected');
+        selectedEle && selectedEle.classList.remove('vote-selected');
+        this.classList.add('vote-selected');
       });
     }
   }
@@ -38,10 +45,29 @@ export default function (players, title, btnText, stage = -1) {
     if (stage === STAGES.kill) {
       tempSelected.killedBy = 'killer';
       HISTORY[HISTORY.length - 1].killed = true;
+      if (tempSelected.identity === 'killer') {
+        alert('cannot kill your partner');
+        return;
+      }
+      console.log(tempSelected.identity);
     } else if (stage === STAGES.vote) {
       tempSelected.killedBy = 'vote';
       HISTORY[HISTORY.length - 1].posted = true;
+      HISTORY.push(
+        {
+          day: HISTORY[HISTORY.length - 1].day + 1,
+          step: 0,
+          kill: null,
+          vote: null,
+          killed: false,
+          posted: false,
+          discussed: false,
+          voted: false
+        }
+      );
+      sessionStorage.setItem('history', JSON.stringify(HISTORY));
     }
+
     tempSelected && (tempSelected.isAlive = false);
     sessionStorage.setItem('identities', JSON.stringify(players));
     obj.dispatchEvent('buttonClick', e);

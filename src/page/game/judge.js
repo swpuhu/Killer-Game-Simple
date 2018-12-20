@@ -2,7 +2,8 @@ import headerFunc from '../../component/header.js';
 import * as util from '../../util/util.js';
 import base from '../../util/base.js';
 import timelineFunc from '../../component/timeline.js';
-import {HISTORY} from "./state.js";
+import {HISTORY, STAGES} from "./state.js";
+
 
 const CN = ['零', '一', '二', '三', '四', '五', '六', '七', '八', '九'];
 const unit1 = ['十', '百', '千', '万'];
@@ -63,7 +64,7 @@ export default function () {
         }
       });
       dayRow.isShowTimeline = true;
-      timeline = timelineFunc(HISTORY[i]);
+      timeline = timelineFunc(item, i);
       addEvent.call(timeline);
       util.appendChildren(dayRow, timeline.getElement());
     });
@@ -83,6 +84,7 @@ export default function () {
   function addEvent() {
     this.addEventListener('killClick', function (e, index) {
       HISTORY[index].killed = true;
+      STAGES.currentState = STAGES.kill;
       sessionStorage.setItem('history', JSON.stringify(HISTORY));
       window.router.go('#/killOrVote');
     });
@@ -97,7 +99,7 @@ export default function () {
     });
     this.addEventListener('voteClick', function (e, index) {
       HISTORY[index].voted = true;
-      sessionStorage.setItem('history', JSON.stringify(HISTORY));
+      STAGES.currentState = STAGES.vote;
       console.log('voteClick');
       window.router.go('#/killOrVote');
     });

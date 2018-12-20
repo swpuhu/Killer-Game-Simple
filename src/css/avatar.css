@@ -38,3 +38,9 @@
   opacity: 0.5;
   filter: grayscale(100%);
 }
+.list-avatar.vote-selected {
+  box-shadow: 0 0 10px 2px #6a7fff;
+}
+.list-avatar.kill-selected {
+  box-shadow: 0 0 10px 2px #ff6a6a;
+}

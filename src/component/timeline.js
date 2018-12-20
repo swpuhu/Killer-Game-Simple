@@ -12,9 +12,14 @@ export default function (history, _index) {
   const kill = util.createElement('li', ['timeline-li', 'timeline-kill']);
   kill.innerHTML = '<div class="timeline-li__content">杀手杀人</div>';
   const killClick = function (e) {
+    if (history.step !== 0) {
+      return;
+    }
     if (kill.classList.contains('done')) {
       return;
     }
+    ++history.step;
+    sessionStorage.setItem('history', JSON.stringify(history));
     obj.dispatchEvent('killClick', e, index);
   };
   kill.addEventListener('click', killClick);
@@ -22,9 +27,14 @@ export default function (history, _index) {
   const postLegacy = util.createElement('li', ['timeline-li', 'timeline-legacy']);
   postLegacy.innerHTML = '<div class="timeline-li__content">亡灵发表遗言</div>';
   const postLegacyClick = function (e) {
+    if (history.step !== 1) {
+      return;
+    }
     if (postLegacy.classList.contains('done')) {
       return;
     }
+    ++history.step;
+    sessionStorage.setItem('history', JSON.stringify(history));
     obj.dispatchEvent('postLegacyClick', e, index);
   };
   postLegacy.addEventListener('click', postLegacyClick);
@@ -32,16 +42,24 @@ export default function (history, _index) {
   const discuss = util.createElement('li', ['timeline-li', 'timeline-discuss']);
   discuss.innerHTML = '<div class="timeline-li__content">玩家依次发言讨论</div>';
   const discussClick = function (e) {
+    if (history.step !== 2) {
+      return;
+    }
     if (discuss.classList.contains('done')) {
       return;
     }
+    ++history.step;
+    sessionStorage.setItem('history', JSON.stringify(history));
     obj.dispatchEvent('discussClick', e, index);
   };
   discuss.addEventListener('click', discussClick);
 
-  const vote = util.createElement('li', ['timeline-li','timeline-vote']);
+  const vote = util.createElement('li', ['timeline-li', 'timeline-vote']);
   vote.innerHTML = '<div class="timeline-li__content">全民投票</div>';
   const voteClick = function (e) {
+    if (history.step !== 3) {
+      return;
+    }
     if (vote.classList.contains('done')) {
       return;
     }
@@ -92,6 +110,5 @@ export default function (history, _index) {
       enumerable: true
     }
   });
-
   return obj;
 }
