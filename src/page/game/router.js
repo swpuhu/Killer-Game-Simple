@@ -56,13 +56,17 @@ for (let r of routesKeys) {
     flag = true;
   }
 }
-if (!flag) {
-  route.value = '#/init';
-}
 
 let routeEle = document.createElement('div');
 addClass(routeEle, ['route']);
 document.body.appendChild(routeEle);
+
+if (!flag) {
+  window.location.hash = '#/init';
+} else {
+  routes[route.value]();
+}
+
 
 function clearElement() {
   while(routeEle.firstElementChild) {
@@ -73,7 +77,6 @@ function clearElement() {
 
 window.onhashchange = function () {
   let value = getHash(window.location.hash);
-  currentComponent && currentComponent.remove();
   let flag = false;
   for (let r of routesKeys) {
     if (r === value) {
@@ -81,13 +84,13 @@ window.onhashchange = function () {
     }
   }
   if (!flag) {
-    window.location.hash = '#/init';
     return;
   }
+  currentComponent && currentComponent.remove();
   routes[value]();
 };
 
-routes[route.value]();
+
 
 window.router = {};
 window.router.go = function (hash) {

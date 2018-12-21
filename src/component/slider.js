@@ -3,10 +3,17 @@ import base from '../util/base.js';
 
 export default function (min, max, length = 200, step = 1, className) {
   let range = max - min;
-  let _step = range / length;
+  let k = range / length;
+  let pixelStep = length / range;
+  let keyPos = [];
   let obj = Object.create(base);
   let value = min;
   obj.eventList = [];
+  const threshold = 1;
+  for (let i = 0; i <= length; i = i + pixelStep) {
+    keyPos.push(i);
+  }
+  console.log(keyPos);
   let doc = document.createElement('div');
   util.addClass(doc, ['slider', className]);
   let minusButton = document.createElement('div');
@@ -17,7 +24,7 @@ export default function (min, max, length = 200, step = 1, className) {
       value = min;
     }
     obj.dispatchEvent('change', -step);
-    slider.style.left = (value - min) / _step + 'px';
+    slider.style.left = (value - min) / k + 'px';
     bar.style.background = `linear-gradient(to right, #ff7c7c,#4f6efb ${slider.offsetLeft / bar.clientWidth * 100}%,#f9c39b ${slider.offsetLeft / bar.clientWidth * 100}%,#f9c39b)`
   });
 
@@ -29,7 +36,7 @@ export default function (min, max, length = 200, step = 1, className) {
       value = max;
     }
     obj.dispatchEvent('change', step);
-    slider.style.left = (value - min) / _step + 'px';
+    slider.style.left = (value - min) / k + 'px';
     bar.style.background = `linear-gradient(to right, #ff7c7c,#4f6efb ${slider.offsetLeft / bar.clientWidth * 100}%,#f9c39b ${slider.offsetLeft / bar.clientWidth * 100}%,#f9c39b)`
   });
 
@@ -56,12 +63,19 @@ export default function (min, max, length = 200, step = 1, className) {
       } else if (distance >= length) {
         distance = length;
       }
-      let changeValue = +((distance - oldDistance) * _step).toFixed(2);
-      obj.dispatchEvent('change', changeValue);
-      value = min + slider.offsetLeft * _step;
-      slider.style.left = distance + 'px';
-      bar.style.background = `linear-gradient(to right, #ff7c7c,#4f6efb ${slider.offsetLeft / bar.clientWidth * 100}%,#f9c39b ${slider.offsetLeft / bar.clientWidth * 100}%,#f9c39b)`
-      oldDistance = distance;
+      console.log(distance);
+      if (keyPos.some(item => {
+        return Math.abs(item - distance) <= threshold;
+      })) {
+        console.log(Math.abs(distance));
+        let changeValue = +((distance - oldDistance) * k).toFixed(2);
+        obj.dispatchEvent('change', changeValue);
+        slider.style.left = distance + 'px';
+        value = min + slider.offsetLeft * k;
+        bar.style.background = `linear-gradient(to right, #ff7c7c,#4f6efb ${slider.offsetLeft / bar.clientWidth * 100}%,#f9c39b ${slider.offsetLeft / bar.clientWidth * 100}%,#f9c39b)`
+        oldDistance = distance;
+      }
+
     };
     let up = function () {
       document.removeEventListener('touchmove', move);
@@ -93,7 +107,7 @@ export default function (min, max, length = 200, step = 1, className) {
       set (newValue) {
         if (newValue < min || newValue > max) return ;
         value = +newValue;
-        slider.style.left = (newValue - min) / _step + 'px';
+        slider.style.left = (newValue - min) / k + 'px';
         bar.style.background = `linear-gradient(to right, #ff7c7c,#4f6efb ${slider.offsetLeft / bar.clientWidth * 100}%,#f9c39b ${slider.offsetLeft / bar.clientWidth * 100}%,#f9c39b)`
       }
     }

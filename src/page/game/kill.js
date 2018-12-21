@@ -4,7 +4,6 @@ import avatarGen from '../../component/avatar.js';
 import * as util from '../../util/util.js';
 import {HISTORY} from "./state.js";
 import {STAGES} from "./state.js";
-
 export default function (players, title, btnText, stage = -1) {
 
   let tempSelected = null;
@@ -42,6 +41,7 @@ export default function (players, title, btnText, stage = -1) {
   button.innerText = btnText;
 
   button.addEventListener('click', function (e) {
+    tempSelected && (tempSelected.isAlive = false);
     if (stage === STAGES.kill) {
       tempSelected.killedBy = 'killer';
       HISTORY[HISTORY.length - 1].killed = true;
@@ -66,9 +66,26 @@ export default function (players, title, btnText, stage = -1) {
         }
       );
       sessionStorage.setItem('history', JSON.stringify(HISTORY));
+      let aliveKillers = players.filter(item => {
+        return item.isAlive && item.identity === 'killer';
+      });
+      let aliveCitizens = players.filter(item => {
+        return item.isAlive && item.identity === 'citizen';
+      });
+      if (aliveKillers.length >= aliveCitizens.length) {
+        STAGES.wins = 'killer';
+        console.log('killer win');
+        window.router.go('#/win');
+        return;
+      } else if (aliveKillers.length === 0) {
+        STAGES.wins = 'citizen';
+        console.log('citizen win');
+        window.router.go('#/win');
+        return;
+      }
     }
 
-    tempSelected && (tempSelected.isAlive = false);
+
     sessionStorage.setItem('identities', JSON.stringify(players));
     obj.dispatchEvent('buttonClick', e);
   });
