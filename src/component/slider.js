@@ -9,7 +9,7 @@ export default function (min, max, length = 200, step = 1, className) {
   let obj = Object.create(base);
   let value = min;
   obj.eventList = [];
-  const threshold = 1;
+  const threshold = pixelStep / 5;
   for (let i = 0; i <= length; i = i + pixelStep) {
     keyPos.push(i);
   }
@@ -63,11 +63,12 @@ export default function (min, max, length = 200, step = 1, className) {
       } else if (distance >= length) {
         distance = length;
       }
-      console.log(distance);
       if (keyPos.some(item => {
         return Math.abs(item - distance) <= threshold;
       })) {
-        console.log(Math.abs(distance));
+        [distance] = keyPos.filter(item => {
+          return Math.abs(item - distance) <= threshold;
+        })
         let changeValue = +((distance - oldDistance) * k).toFixed(2);
         obj.dispatchEvent('change', changeValue);
         slider.style.left = distance + 'px';
