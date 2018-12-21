@@ -9,9 +9,6 @@ const index = '/page/setting/setting.html';
 
 const server = http.createServer(function (request, response) {
   let pathname = url.parse(request.url).pathname;
-  if (pathname === '/') {
-    pathname = '/page/setting/setting.html';
-  }
   let filepath = path.join(root, pathname);
   console.log(filepath);
   fs.stat(filepath, function (err, stats) {

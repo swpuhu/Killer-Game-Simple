@@ -19,7 +19,7 @@ export default function (min, max, length = 200, step = 1, className) {
   let minusButton = document.createElement('div');
   util.addClass(minusButton, ['minus-btn']);
   minusButton.addEventListener('touchstart', function () {
-    value = value - step;
+    value = Math.floor(value - step);
     if (value <= min) {
       value = min;
     }
@@ -31,12 +31,18 @@ export default function (min, max, length = 200, step = 1, className) {
   let plusButton = document.createElement('div');
   util.addClass(plusButton, ['plus-btn']);
   plusButton.addEventListener('touchstart', function () {
-    value += step;
+    value = Math.floor(value + step);
     if (value >= max) {
       value = max;
     }
     obj.dispatchEvent('change', step);
-    slider.style.left = (value - min) / k + 'px';
+    let distance = (value - min) / k;
+    keyPos.forEach(item => {
+      if (distance - item > 0 && Math.abs(distance - item) < pixelStep) {
+        distance = item;
+      }
+    });
+    slider.style.left = distance + 'px';
     bar.style.background = `linear-gradient(to right, #ff7c7c,#4f6efb ${slider.offsetLeft / bar.clientWidth * 100}%,#f9c39b ${slider.offsetLeft / bar.clientWidth * 100}%,#f9c39b)`
   });
 
@@ -63,19 +69,19 @@ export default function (min, max, length = 200, step = 1, className) {
       } else if (distance >= length) {
         distance = length;
       }
-      if (keyPos.some(item => {
-        return Math.abs(item - distance) <= threshold;
-      })) {
-        [distance] = keyPos.filter(item => {
-          return Math.abs(item - distance) <= threshold;
-        })
+      // if (keyPos.some(item => {
+      //   return Math.abs(item - distance) <= threshold;
+      // })) {
+      //   [distance] = keyPos.filter(item => {
+      //     return Math.abs(item - distance) <= threshold;
+      //   });
         let changeValue = +((distance - oldDistance) * k).toFixed(2);
         obj.dispatchEvent('change', changeValue);
         slider.style.left = distance + 'px';
         value = min + slider.offsetLeft * k;
         bar.style.background = `linear-gradient(to right, #ff7c7c,#4f6efb ${slider.offsetLeft / bar.clientWidth * 100}%,#f9c39b ${slider.offsetLeft / bar.clientWidth * 100}%,#f9c39b)`
         oldDistance = distance;
-      }
+      // }
 
     };
     let up = function () {

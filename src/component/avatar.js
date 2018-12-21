@@ -9,6 +9,7 @@ export default function (identity, index) {
   };
   let obj = Object.create(base);
   let doc = document.createElement('li');
+  let isAlive = identity.isAlive;
   util.addClass(doc, ['list-avatar', identity.identity]);
   if (!identity.isAlive) {
     doc.classList.add('death');
@@ -53,6 +54,14 @@ export default function (identity, index) {
       writable: false,
       configurable: false,
       enumerable: true
+    },
+    isAlive: {
+      get () {
+        return isAlive;
+      },
+      set (value) {
+        isAlive = value;
+      }
     }
   });
 

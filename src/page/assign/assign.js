@@ -31,8 +31,9 @@ for (let player in players) {
   }
 }
 res = shuffle(res);
-res = res.map(item => {
+res = res.map((item, index) => {
   return {
+    id: index + 1,
     isAlive: true,
     identity: item,
     killedBy: undefined

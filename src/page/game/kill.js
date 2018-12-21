@@ -21,6 +21,9 @@ export default function (players, title, btnText, stage = -1) {
     listEles.push(avatar.getElement());
     if (stage === STAGES.kill) {
       avatar.getElement().addEventListener('click', function (e) {
+        if (!player.isAlive) {
+          return;
+        }
         tempSelected = player;
         let selectedEle = list.querySelector('.kill-selected');
         selectedEle && selectedEle.classList.remove('kill-selected');
@@ -28,6 +31,9 @@ export default function (players, title, btnText, stage = -1) {
       });
     } else if (stage === STAGES.vote) {
       avatar.getElement().addEventListener('click', function (e) {
+        if (!player.isAlive) {
+          return;
+        }
         tempSelected = player;
         let selectedEle = list.querySelector('.vote-selected');
         selectedEle && selectedEle.classList.remove('vote-selected');
@@ -45,6 +51,7 @@ export default function (players, title, btnText, stage = -1) {
     if (stage === STAGES.kill) {
       tempSelected.killedBy = 'killer';
       HISTORY[HISTORY.length - 1].killed = true;
+      HISTORY[HISTORY.length - 1].kill = tempSelected.id;
       if (tempSelected.identity === 'killer') {
         alert('cannot kill your partner');
         return;
@@ -53,6 +60,8 @@ export default function (players, title, btnText, stage = -1) {
     } else if (stage === STAGES.vote) {
       tempSelected.killedBy = 'vote';
       HISTORY[HISTORY.length - 1].posted = true;
+      HISTORY[HISTORY.length - 1].vote = tempSelected.id;
+      console.log(tempSelected);
       HISTORY.push(
         {
           day: HISTORY[HISTORY.length - 1].day + 1,
