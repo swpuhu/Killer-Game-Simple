@@ -24,7 +24,6 @@ document.body.appendChild(slider.getElement());
 document.body.appendChild(input);
 document.body.appendChild(button);
 
-
 input.onchange = function () {
   slider.value = input.value;
 };
