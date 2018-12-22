@@ -1,6 +1,5 @@
 .timeline {
   display: flex;
-  height: 185px;
   align-items: center;
   justify-content: center;
   background: #fff;
@@ -24,6 +23,11 @@
   padding: 10px;
   margin: 10px 0;
   background-color: #56e7ff;
+}
+.timeline-prompt {
+  width: 200px;
+  margin: 10px 0;
+  font-size: 12px;
 }
 
 .timeline-li.done {

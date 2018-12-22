@@ -44,6 +44,23 @@ export default function () {
   const footer = document.createElement('div');
   util.addClass(footer, ['judge=footer']);
 
+  let Observer = new MutationObserver(function (mutationList) {
+    for (let mutation of mutationList) {
+      if (mutation.addedNodes[0]) {
+        if (mutation.addedNodes[0].childNodes[1] === timeline.getElement() || mutation.addedNodes[0] === timeline.getElement()) {
+          timeline.resetHeight();
+        }
+      }
+    }
+  });
+  let config = {
+    attributes: true,
+    childList: true,
+    characterData: true,
+    subtree: true
+  };
+  Observer.observe(doc, config);
+
   util.appendChildren(doc, header.getElement(), body, footer);
   let timeline = null;
   const days = [];
@@ -110,9 +127,9 @@ export default function () {
   }
 
   function remove() {
+    Observer.disconnect();
     doc.remove();
   }
-
   Object.defineProperties(obj, {
     getElement: {
       value: getElement,

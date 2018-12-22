@@ -1,12 +1,8 @@
 import base from '../util/base.js';
 import * as util from '../util/util.js';
+import {displayIdentity} from "../page/game/state.js";
 
 export default function (identity, index) {
-  const displayIdentity = {
-    killer: '杀手',
-    citizen: '平民',
-    mystery: '点击按钮显示身份'
-  };
   let obj = Object.create(base);
   let doc = document.createElement('li');
   let isAlive = identity.isAlive;

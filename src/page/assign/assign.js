@@ -33,7 +33,7 @@ for (let player in players) {
 res = shuffle(res);
 res = res.map((item, index) => {
   return {
-    id: index + 1,
+    id: index,
     isAlive: true,
     identity: item,
     killedBy: undefined

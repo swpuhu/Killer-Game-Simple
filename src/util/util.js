@@ -36,9 +36,12 @@ function createElement(tagName, className) {
 }
 
 function appendChildren(father, ...children) {
-  for (let child of children) {
-    father.appendChild(child);
-  }
+  children.forEach(item => {
+    if (!item) {
+      return;
+    }
+    father.appendChild(item);
+  });
 }
 
 function getParams(string) {

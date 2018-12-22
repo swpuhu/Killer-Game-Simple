@@ -51,7 +51,7 @@ export default function (players, title, btnText, stage = -1) {
     if (stage === STAGES.kill) {
       tempSelected.killedBy = 'killer';
       HISTORY[HISTORY.length - 1].killed = true;
-      HISTORY[HISTORY.length - 1].kill = tempSelected.id;
+      HISTORY[HISTORY.length - 1].kill = tempSelected;
       if (tempSelected.identity === 'killer') {
         alert('cannot kill your partner');
         return;
@@ -60,7 +60,7 @@ export default function (players, title, btnText, stage = -1) {
     } else if (stage === STAGES.vote) {
       tempSelected.killedBy = 'vote';
       HISTORY[HISTORY.length - 1].posted = true;
-      HISTORY[HISTORY.length - 1].vote = tempSelected.id;
+      HISTORY[HISTORY.length - 1].vote = tempSelected;
       console.log(tempSelected);
       HISTORY.push(
         {
@@ -74,7 +74,7 @@ export default function (players, title, btnText, stage = -1) {
           voted: false
         }
       );
-      sessionStorage.setItem('history', JSON.stringify(HISTORY));
+
       let aliveKillers = players.filter(item => {
         return item.isAlive && item.identity === 'killer';
       });
@@ -93,8 +93,7 @@ export default function (players, title, btnText, stage = -1) {
         return;
       }
     }
-
-
+    sessionStorage.setItem('history', JSON.stringify(HISTORY));
     sessionStorage.setItem('identities', JSON.stringify(players));
     obj.dispatchEvent('buttonClick', e);
   });

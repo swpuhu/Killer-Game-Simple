@@ -1,5 +1,6 @@
 import base from '../util/base.js';
 import * as util from '../util/util.js';
+import {displayIdentity} from "../page/game/state.js";
 
 export default function (history, _index) {
   let index = _index;
@@ -23,6 +24,14 @@ export default function (history, _index) {
     obj.dispatchEvent('killClick', e, index);
   };
   kill.addEventListener('click', killClick);
+
+  let killerPrompt;
+  if (history.kill) {
+    killerPrompt = document.createElement('div');
+    util.addClass(killerPrompt, ['killer-prompt', 'timeline-prompt']);
+    killerPrompt.innerText = `${history.kill.id}被杀手杀死，其真实身份是${displayIdentity[history.kill.identity]}`;
+  }
+
 
   const postLegacy = util.createElement('li', ['timeline-li', 'timeline-legacy']);
   postLegacy.innerHTML = '<div class="timeline-li__content">亡灵发表遗言</div>';
@@ -67,6 +76,12 @@ export default function (history, _index) {
   };
   vote.addEventListener('click', voteClick);
 
+  let votePrompt;
+  if (history.vote) {
+    votePrompt = document.createElement('div');
+    util.addClass(votePrompt, ['vote-prompt', 'timeline-prompt']);
+    votePrompt.innerText = `${history.vote.id}号被投票投死，其真实身份是${displayIdentity[history.vote.identity]}`
+  }
   if (history.killed) {
     kill.classList.add('done');
   }
@@ -80,7 +95,7 @@ export default function (history, _index) {
     vote.classList.add('done');
   }
 
-  util.appendChildren(list, kill, postLegacy, discuss, vote);
+  util.appendChildren(list, kill, killerPrompt ,postLegacy, discuss, vote, votePrompt);
   util.appendChildren(doc, timeline, list);
 
   function getElement() {
@@ -96,6 +111,10 @@ export default function (history, _index) {
     obj = null;
   }
 
+  function resetLineHeight () {
+    timeline.style.height = doc.clientHeight + 'px';
+  }
+
   Object.defineProperties(obj, {
     getElement: {
       value: getElement,
@@ -105,6 +124,12 @@ export default function (history, _index) {
     },
     remove: {
       value: remove,
+      writable: false,
+      configurable: false,
+      enumerable: true
+    },
+    resetHeight: {
+      value: resetLineHeight,
       writable: false,
       configurable: false,
       enumerable: true
