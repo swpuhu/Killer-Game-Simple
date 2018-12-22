@@ -146,6 +146,38 @@
   background-size: contain;
 }
 
+.winner .win-list {
+  padding: 10px;
+}
+
+.winner .win-list .win-list__item {
+  padding: 5px;
+  margin: 10px 0;
+  background: #fff;
+  border: 2px solid #ffb113;
+  border-radius: 10px;
+}
+
+.winner .win-list .win-list__item .item-night,
+.winner .win-list .win-list__item .item-daytime {
+  margin: 5px 0;
+  font-weight: 100;
+}
+.winner .win-btn__groups {
+  margin: 15px 0;
+  text-align: center;
+}
+
+.winner .win-btn__groups .button{
+  padding: 10px 20px;
+  width: 60%;
+  border: none;
+  border-radius: 10px;
+  background: #ffb518;
+  color: #fff;
+  font-size: 18px;
+  font-weight: 700;
+}
 @keyframes promptlabel {
 0% {
   opacity: 0;

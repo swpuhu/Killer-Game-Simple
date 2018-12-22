@@ -7,7 +7,12 @@ export default function (title, className, left, right) {
   obj.eventList = [];
   let titleEle = document.createElement('div');
   titleEle.classList.add('title');
-  titleEle.innerText = title;
+
+  let titleContent = document.createElement('div');
+  util.addClass(titleContent, ['title-content']);
+  titleContent.innerText = title;
+  titleEle.appendChild(titleContent);
+
   let leftBtn = null;
   let rightBtn = null;
 
@@ -34,7 +39,7 @@ export default function (title, className, left, right) {
   doc.appendChild(titleEle);
   if (right) {
     rightBtn = document.createElement('div');
-    rightBtn.classList.add('left-btn');
+    rightBtn.classList.add('right-btn');
     rightBtn.onclick = function (e) {
       obj.dispatchEvent('rightClick', e);
     };

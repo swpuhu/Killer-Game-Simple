@@ -32,8 +32,15 @@
   width: 20px;
   height: 20%;
   margin: 5px auto;
-  background-color: #fff;
+  background: url("../assets/img/pumpkin.png") no-repeat;
+  background-size: 20px 20px;
 }
+
+.list-avatar.kill-selected .list-prompt,
+.list-avatar.citizen-selected .list-prompt{
+  display: block;
+}
+
 .list-avatar.death {
   opacity: 0.5;
   filter: grayscale(100%);

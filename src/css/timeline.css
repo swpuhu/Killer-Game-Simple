@@ -81,8 +81,20 @@
   left: -50px;
   width: 30px;
   height: 30px;
-  background-color: #ee9f1b;
   -webkit-border-radius: 50%;
   -moz-border-radius: 50%;
   border-radius: 50%;
+  border: 1px solid #ffc567
+}
+
+.timeline-kill::after {
+  background: #fff url("../assets/img/moon.png") no-repeat;
+  -webkit-background-size: 30px 30px;
+  background-size: 30px 30px;
+}
+
+.timeline-legacy::after {
+  background: #fff url("../assets/img/sun.png") no-repeat;
+  -webkit-background-size: 30px 30px;
+  background-size: 30px 30px;
 }

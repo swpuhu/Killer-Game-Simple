@@ -17,13 +17,13 @@ function historyItem (history) {
   if (history.kill) {
     nightTime = document.createElement('div');
     util.addClass(nightTime, ['item-night']);
-    nightTime.innerText = `晚上： ${history.kill.id}号被杀死， 真实身份是${displayIdentity[history.kill.identity]}`;
+    nightTime.innerText = `晚上： ${history.kill.id + 1}号被杀死， 真实身份是${displayIdentity[history.kill.identity]}`;
   }
   let dayTime;
   if (history.vote) {
     dayTime = document.createElement('div');
     util.addClass(dayTime, ['item-daytime']);
-    dayTime.innerText = `白天： ${history.vote.id}号被投死， 真实身份是${displayIdentity[history.vote.identity]}`;
+    dayTime.innerText = `白天： ${history.vote.id + 1}号被投死， 真实身份是${displayIdentity[history.vote.identity]}`;
   }
   util.appendChildren(doc, dayEle, nightTime, dayTime);
   return doc;
@@ -42,12 +42,25 @@ export default function (winner) {
   util.addClass(winBanner, ['win-banner']);
 
   let list = document.createElement('ul');
+  util.addClass(list, ['win-list']);
 
   for (let history of HISTORY) {
     let item = historyItem(history);
     util.appendChildren(list, item);
   }
-  util.appendChildren(doc, header.getElement(), winnerLabel, winBanner, list);
+
+  let buttonGroups = document.createElement('div');
+  util.addClass(buttonGroups, ['win-btn__groups']);
+  let button_1 = document.createElement('button');
+  util.addClass(button_1, ['button']);
+  button_1.innerText = '结束游戏';
+  button_1.addEventListener('click', function () {
+    sessionStorage.clear();
+    window.location = '../setting/setting.html';
+  });
+  buttonGroups.appendChild(button_1);
+
+  util.appendChildren(doc, header.getElement(), winnerLabel, winBanner, list, buttonGroups);
 
   function getElement() {
     return doc;

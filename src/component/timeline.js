@@ -29,7 +29,7 @@ export default function (history, _index) {
   if (history.kill) {
     killerPrompt = document.createElement('div');
     util.addClass(killerPrompt, ['killer-prompt', 'timeline-prompt']);
-    killerPrompt.innerText = `${history.kill.id}被杀手杀死，其真实身份是${displayIdentity[history.kill.identity]}`;
+    killerPrompt.innerText = `${history.kill.id}号被杀手杀死，其真实身份是${displayIdentity[history.kill.identity]}`;
   }
 
 
