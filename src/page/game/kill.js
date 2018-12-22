@@ -57,6 +57,8 @@ export default function (players, title, btnText, stage = -1) {
         return;
       }
       console.log(tempSelected.identity);
+      sessionStorage.setItem('history', JSON.stringify(HISTORY));
+      sessionStorage.setItem('identities', JSON.stringify(players));
     } else if (stage === STAGES.vote) {
       tempSelected.killedBy = 'vote';
       HISTORY[HISTORY.length - 1].posted = true;
@@ -81,20 +83,21 @@ export default function (players, title, btnText, stage = -1) {
       let aliveCitizens = players.filter(item => {
         return item.isAlive && item.identity === 'citizen';
       });
+      sessionStorage.setItem('history', JSON.stringify(HISTORY));
+      sessionStorage.setItem('identities', JSON.stringify(players));
       if (aliveKillers.length >= aliveCitizens.length) {
         STAGES.wins = 'killer';
-        console.log('killer win');
+        sessionStorage.setItem('winner', 'killer');
         window.router.go('#/win');
         return;
       } else if (aliveKillers.length === 0) {
         STAGES.wins = 'citizen';
-        console.log('citizen win');
+        sessionStorage.setItem('winner', 'citizen');
         window.router.go('#/win');
         return;
       }
     }
-    sessionStorage.setItem('history', JSON.stringify(HISTORY));
-    sessionStorage.setItem('identities', JSON.stringify(players));
+
     obj.dispatchEvent('buttonClick', e);
   });
 

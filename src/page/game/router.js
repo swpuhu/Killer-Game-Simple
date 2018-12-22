@@ -43,6 +43,18 @@ const routes = {
         window.router.go('#/judge');
       });
     });
+  },
+  '#/win': function () {
+    clearElement();
+    import('./win.js').then(data => {
+      const winFunc = data.default;
+      let winner = sessionStorage.getItem('winner');
+      if (winner === '') {
+        winner = 'citizen';
+      }
+      const win = winFunc(winner);
+      routeEle.appendChild(win.getElement());
+    });
   }
 };
 
@@ -77,6 +89,7 @@ function clearElement() {
 
 window.onhashchange = function () {
   let value = getHash(window.location.hash);
+  console.log(value);
   let flag = false;
   for (let r of routesKeys) {
     if (r === value) {

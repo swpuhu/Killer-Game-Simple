@@ -129,9 +129,22 @@
   bottom: 0;
   width: 100%;
   background-color: #56e7ff;
+  overflow: auto;
 }
-
-
+.winner .winner-label {
+  padding: 10px 0;
+  text-align: center;
+  font-size: 22px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.8);
+  letter-spacing: 2px;
+}
+.winner .win-banner {
+  height: 300px;
+  margin: 20px;
+  background: url("../assets/img/winner.png") no-repeat;
+  background-size: contain;
+}
 
 @keyframes promptlabel {
 0% {

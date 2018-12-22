@@ -61,7 +61,7 @@ function getParams(string) {
 }
 
 function getHash(url) {
-  return url.replace(/\?.*/, '');
+  return url.replace(/\?.*#/, '');
 }
 
 function throttle(fn, delay = 300) {
@@ -83,4 +83,35 @@ function throttle(fn, delay = 300) {
     }, delay);
   }
 }
-export {isArray, isObject, isFunction, isString, addClass, appendChildren, getParams, getHash, throttle, createElement};
+
+const CN = ['零', '一', '二', '三', '四', '五', '六', '七', '八', '九'];
+const unit1 = ['十', '百', '千', '万'];
+function numberToCN(n) {
+  if (typeof n === 'number') {
+    n = n.toString();
+  }
+  if (typeof n !== 'string') {
+    throw new Error('type error');
+  }
+  if (n.length > 5) {
+    throw new Error('beyond max length');
+  }
+
+  let number = n.split('');
+  let res = [];
+  for (let i = number.length - 1; i >= 0; --i) {
+    let item = number[i];
+    let prevItem = number[i - 1];
+    res.unshift(CN[item]);
+    if (prevItem) {
+      res.unshift(unit1[number.length - i -1]);
+    }
+  }
+  if (res.length === 3 && res[0] === '一') {
+    res.shift();
+  }
+  return res.join('');
+}
+
+
+export {isArray, isObject, isFunction, isString, addClass, appendChildren, getParams, getHash, throttle, createElement, numberToCN};

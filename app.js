@@ -10,7 +10,7 @@ const index = '/page/setting/setting.html';
 const server = http.createServer(function (request, response) {
   let pathname = url.parse(request.url).pathname;
   let filepath = path.join(root, pathname);
-  console.log(filepath);
+  // console.log(filepath);
   fs.stat(filepath, function (err, stats) {
     if (!err && stats.isFile()) {
       if (/\.js|mjs$/.test(filepath)) {
