@@ -5,7 +5,6 @@ import * as util from '../../util/util.js';
 import {HISTORY} from "./state.js";
 import {STAGES} from "./state.js";
 export default function (players, title, btnText, stage = -1) {
-
   let tempSelected = null;
   let playersEle = [];
   let obj = Object.create(base);
