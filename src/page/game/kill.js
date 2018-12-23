@@ -47,7 +47,9 @@ export default function (players, title, btnText, stage = -1) {
   button.innerText = btnText;
 
   button.addEventListener('click', function (e) {
-    tempSelected && (tempSelected.isAlive = false);
+    if (!tempSelected && stage !== -1) {
+      alert('plz choose a player who will be killed');
+    }
     if (stage === STAGES.kill) {
       tempSelected.killedBy = 'killer';
       HISTORY[HISTORY.length - 1].killed = true;
@@ -56,10 +58,12 @@ export default function (players, title, btnText, stage = -1) {
         alert('cannot kill your partner');
         return;
       }
+      tempSelected && (tempSelected.isAlive = false);
       console.log(tempSelected.identity);
       sessionStorage.setItem('history', JSON.stringify(HISTORY));
       sessionStorage.setItem('identities', JSON.stringify(players));
     } else if (stage === STAGES.vote) {
+      tempSelected && (tempSelected.isAlive = false);
       tempSelected.killedBy = 'vote';
       HISTORY[HISTORY.length - 1].posted = true;
       HISTORY[HISTORY.length - 1].vote = tempSelected;
