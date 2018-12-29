@@ -1,6 +1,7 @@
 import base from '../util/base.js';
 import * as util from '../util/util.js';
 import {displayIdentity} from "../page/game/state.js";
+import modalBoxFunc from './ModalBox.js';
 
 export default function (history, _index) {
   let index = _index;
@@ -9,11 +10,12 @@ export default function (history, _index) {
   const doc = util.createElement('div', ['timeline']);
   const timeline = util.createElement('div', ['timeline-line']);
   const list = util.createElement('ul', ['timeline-list']);
-
+  const modalBox = modalBoxFunc('请按游戏步骤进行！');
   const kill = util.createElement('li', ['timeline-li', 'timeline-kill']);
   kill.innerHTML = '<div class="timeline-li__content">杀手杀人</div>';
   const killClick = function (e) {
     if (history.step !== 0) {
+      modalBox.show();
       return;
     }
     if (kill.classList.contains('done')) {
@@ -37,6 +39,7 @@ export default function (history, _index) {
   postLegacy.innerHTML = '<div class="timeline-li__content">亡灵发表遗言</div>';
   const postLegacyClick = function (e) {
     if (history.step !== 1) {
+      modalBox.show();
       return;
     }
     if (postLegacy.classList.contains('done')) {
@@ -52,6 +55,7 @@ export default function (history, _index) {
   discuss.innerHTML = '<div class="timeline-li__content">玩家依次发言讨论</div>';
   const discussClick = function (e) {
     if (history.step !== 2) {
+      modalBox.show();
       return;
     }
     if (discuss.classList.contains('done')) {
@@ -67,6 +71,7 @@ export default function (history, _index) {
   vote.innerHTML = '<div class="timeline-li__content">全民投票</div>';
   const voteClick = function (e) {
     if (history.step !== 3) {
+      modalBox.show();
       return;
     }
     if (vote.classList.contains('done')) {

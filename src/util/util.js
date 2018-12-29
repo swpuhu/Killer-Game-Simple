@@ -113,5 +113,15 @@ function numberToCN(n) {
   return res.join('');
 }
 
+function getSingle(fn) {
+  let ret;
+  return function () {
+    if (ret) {
+      return ret;
+    } else {
+      return ret = fn.apply(this, arguments);
+    }
+  }
+}
 
-export {isArray, isObject, isFunction, isString, addClass, appendChildren, getParams, getHash, throttle, createElement, numberToCN};
+export {isArray, isObject, isFunction, isString, addClass, appendChildren, getParams, getHash, throttle, createElement, numberToCN, getSingle};
